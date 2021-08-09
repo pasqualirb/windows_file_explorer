@@ -1,25 +1,79 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Hello World!</title>
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'"
-    />
-    <meta
-      http-equiv="X-Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'"
-    />
-  </head>
-  <body>
-    <h1>Hello World!</h1>
-    We are using Node.js <span id="node-version"></span>, Chromium
-    <span id="chrome-version"></span>, and Electron
-    <span id="electron-version"></span>.
 
-    <!-- You can also require other files to run in this process -->
-    <script src="./dist/renderer.js"></script>
-  </body>
+<head>
+	<meta charset="UTF-8">
+	<!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+	<!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'"> -->
+	<title>Hello World!</title>
+
+	<link href="./index.css" rel="stylesheet">
+	<link href="./titleBar.css" rel="stylesheet">
+	<link href="./mainView.css" rel="stylesheet">
+	<link href="./floatingMenu.css" rel="stylesheet">
+</head>
+
+<body spellcheck="false">
+
+	<!-- ================================================================================= -->
+	<!-- Title bar (contains address bar) -->
+	<!-- ================================================================================= -->
+	<div id="title-bar">
+
+		<!-- explorer icon -->
+		<div id="explorer-button-container">
+			<div id="explorer-button" tabindex="0"></div>
+		</div>
+
+		<div class="title-bar-spacer"></div>
+
+		<!-- address/search bar -->
+		<div class="address-bar-container">
+			<div class="address-bar-button left-button" tabindex="1"></div>
+			<div class="address-bar-button right-button" tabindex="2"></div>
+			<div class="address-bar-button up-button" tabindex="3"></div>
+			<div class="address-bar" tabindex="4">
+				<div class="address-bar-section" onclick="window.api.send('refresh', '/Users/tafstore/')">
+					Documents
+				</div>
+			</div>
+		</div>
+
+		<div class="title-bar-spacer"></div>
+
+		<!-- minimize/maximize/close -->
+		<div id="window-buttons-container">
+			<div class="window-button" id="minimize-button" onclick="minimize()"></div>
+			<div class="window-button" id="maximize-button" onclick="maximize()"></div>
+			<div class="window-button" id="close-button" onclick="close()"></div>
+		</div>
+
+	</div>
+
+	<!-- ================================================================================= -->
+	<!-- Main container (where files are shown) -->
+	<!-- ================================================================================= -->
+	<div class="main-container">
+		<div class="tree-view"></div>
+		<div class="files-view">
+			<div id="files-container" style="flex-flow: column; background-color: transparent;">
+				<div class="file-line" onclick="focus()">Test</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- ================================================================================= -->
+	<!-- Status bar -->
+	<!-- ================================================================================= -->
+	<div class="status-bar">
+
+	</div>
+
+	<!-- <div class="floating-menu" style="position: absolute; top: 200px; left: 400px; height: 400px; width: 300px;"></div> -->
+	<!-- You can also require other files to run in this process -->
+	<script style="display: none">var exports = {};</script>
+	<script src="./dist/renderer.js"></script>
+</body>
+
 </html>

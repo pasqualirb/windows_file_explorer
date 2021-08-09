@@ -1,0 +1,46 @@
+
+/* ================================================================================= */
+/* Main container */
+/* ================================================================================= */
+
+.main-container {
+	flex-grow: 1;
+	overflow: hidden;
+	background-color: transparent;
+}
+
+/* ================================================================================= */
+/* Tree view */
+/* ================================================================================= */
+
+.tree-view {
+	background-color: transparent;
+	min-width: 250px;
+	border-right: 1px solid #E0E0E0;
+}
+
+/* ================================================================================= */
+/* Files view */
+/* ================================================================================= */
+
+.files-view {
+	flex-flow: column;
+	flex-grow: 1;
+	overflow: auto;
+
+	padding-left: 1rem;
+
+	font-size: 10pt;
+	background-color: white;
+}
+
+.file-line {
+	min-height: 26px;
+	margin-bottom: 2px;
+	margin-top: 2px;
+
+	align-items: center;
+}
+.file-line:hover { background-color: #E5F3FF; }
+.file-line:hover:active { background-color: #D9EEFF; }
+.file-line:focus { background-color: #CCE8FF; }
