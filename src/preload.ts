@@ -1,7 +1,7 @@
 // All of the Node.js APIs are available in the preload process.
 
 import { contextBridge, ipcRenderer } from "electron";
-import { Events, RendererPublicApi } from "./common";
+import { RendererPublicApi } from "./common";
 
 // It has the same sandbox as a Chrome extension.
 window.addEventListener("DOMContentLoaded", () => {
@@ -18,12 +18,10 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 const api: RendererPublicApi = {
-  send: (channel: string, data: any) => {
-    Events.some(e => e.request === channel) && ipcRenderer.send(channel, data);
-  },
-  on: (channel: string, callback: (data: any) => void): void => {
-    Events.some(e => e.event === channel) && ipcRenderer.on(channel, (e, data) => callback(data));
-  }
+  // For channels
+  on:   (channel: string, listener: (...args: any[]) => void)   =>  ipcRenderer.on(channel, listener),
+  once: (channel: string, listener: (...args: any[]) => void)   =>  ipcRenderer.once(channel, listener),
+  send: (channel: string, ...args: any[])                       =>  ipcRenderer.send(channel, args),
 };
 
 contextBridge.exposeInMainWorld("api", api);

@@ -17,10 +17,15 @@
 	min-width: 3rem;
 }
 
+.title-bar-spacer-small {
+	min-width: 0.5rem;
+}
+
 /* When window's width is equal or less than max-width */
 @media (max-width: 650px) {
 	/* Hide spacers */
 	.title-bar-spacer { display: none; }
+	.title-bar-spacer-small { display: none; }
 }
 
 /* ================================================================================= */
@@ -41,7 +46,7 @@
 	background-size: 16px 16px;
 	width: 26px;
 	height: 26px;
-	border-radius: 3px;
+	border-radius: 0.3rem;
 }
 #explorer-button:hover { background-color: #e9e9e988; }
 #explorer-button:hover:active { background-color: #ededed88; }
@@ -62,8 +67,9 @@
 
 .address-bar-button {
 	-webkit-app-region: no-drag;
-	min-width: 2.5rem;
-	min-height: 2.5rem;
+	min-width: 2rem;
+	min-height: 2rem;
+	border-radius: 0.3rem;
 	background-color: transparent;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -80,18 +86,26 @@
 	height: 2rem;
 	align-items: stretch;
 
-	background-color: #ffffff;
+	background-color: #ffffff11;
 	border: 1px solid #d9d9d9;
-	border-radius: 2px;
+	border-radius: 0.3rem;
 }
+.address-bar:focus { background-color: #ffffff; }
 
 .address-bar-section {
-	border-radius: 2px;
 	border: 1px solid transparent;
 	align-items: center;
 	padding: 0 2px;
-	font-size: .8rem;
 }
+.address-bar-section-first {
+	border-radius: .3rem 0 0 .3rem;
+	min-width: 1.5rem;
+	background-image: url('./icons/explorer.png');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 16px 16px;
+}
+.address-bar-section-last  { border-radius: 0 .3rem .3rem 0; }
 .address-bar-section:hover { border: 1px solid #CCE8FF; background-color: #E5F3FF; }
 .address-bar-section:hover:active { border: 1px solid #99D1FF; background-color: #CCE8FF; }
 
@@ -124,9 +138,9 @@
 #maximize-button:hover { background-color: #e9e9e988; }
 #maximize-button:hover:active { background-color: #ededed88; }
 
-#restore-button { background-image: url('./icons/close_icon.png'); }
-#restore-button:hover { background-color: #e9e9e988; }
-#restore-button:hover:active { background-color: #ededed88; }
+#unmaximize-button { background-image: url('./icons/close_icon.png'); }
+#unmaximize-button:hover { background-color: #e9e9e988; }
+#unmaximize-button:hover:active { background-color: #ededed88; }
 
 #close-button { background-image: url('./icons/close_icon.png'); }
 #close-button:hover { background-color: #c42b1c; background-image: url('./icons/close_icon_hover.png'); }

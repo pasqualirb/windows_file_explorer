@@ -1,6 +1,9 @@
-import { BrowserWindow, ipcMain } from "electron";
+import { ipcMain } from "electron";
+import { BrowserWindow } from "electron-acrylic-window";
 import { readdir } from "original-fs";
 import * as path from "path";
+import { Channels } from "./common";
+import { On } from "./main";
 
 export class FileExplorerApp {
 	private mainWindow: BrowserWindow;
@@ -31,15 +34,26 @@ export class FileExplorerApp {
 		this.mainWindow.loadFile(path.join(__dirname, "../index.html"));
 
 		// Open the DevTools.
-		this.mainWindow.webContents.openDevTools();
+		//this.mainWindow.webContents.openDevTools();
+
+		// register mainWindow action handler
+		On(Channels.MainWindow, (event: string) => {
+			switch (event) {
+				case "close":       this.mainWindow.close();      break;
+				case "maximize":    this.mainWindow.maximize();   break;
+				case "unmaximize":  this.mainWindow.unmaximize(); break;
+				case "minimize":    this.mainWindow.minimize();   break;
+			}
+		});
+
+		// window is initially unmaximized
+		//ipcMain.emit("unmaximized");
 
 		// register mainWindow events
-		ipcMain.on("minimize", (e) => { this.mainWindow.minimize(); e.reply("minimized") });
-		ipcMain.on("maximize", (e) => { this.mainWindow.maximize(); e.reply("maximized") });
-		ipcMain.on("restore",  (e) => { this.mainWindow.restore();  e.reply("restored")  });
-		ipcMain.on("close",    (e) => { this.mainWindow.close();    e.reply("closed")    });
-
-		this.mainWindow.on("closed", () => { this.mainWindow = null; });
+		this.mainWindow.on("minimize",   () => ipcMain.emit("minimized"));
+		this.mainWindow.on("maximize",   () => ipcMain.emit("maximized"));
+		this.mainWindow.on("unmaximize", () => ipcMain.emit("unmaximized"));
+		this.mainWindow.on("closed", () => { ipcMain.emit("closed"); this.mainWindow = null; });
 	}
 
 	constructor() {

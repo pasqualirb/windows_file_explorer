@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, ipcMain } from "electron";
 import { FileExplorerApp } from "./fileExplorerApp";
 
 const mainInstance: FileExplorerApp = new FileExplorerApp();
@@ -28,3 +28,7 @@ app.on("window-all-closed", () => {
 
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
+
+type Listener = (...args: any[]) => void;
+
+export const On = (channel: string, listener: Listener) => ipcMain.on(channel, (event, ...args: any[]) => listener(args));

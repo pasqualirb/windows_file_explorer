@@ -8,14 +8,14 @@
 // Setup renderer Inter-Process Communication (IPC)
 // ================================================
 
-import { RendererPublicApi } from "./common";
+import { Channels, RendererPublicApi } from "./common";
 
 declare global {
 	interface Window { api: RendererPublicApi; }
 }
 
-const On = window.api.on;
 const Send = window.api.send;
+const On   = window.api.on;
 
 // Register listeners
 // ==================
@@ -32,21 +32,30 @@ On("refreshed", (files: string[]) => {
 	}
 });
 
+const MINIMIZE_BUTTON_ID = "minimize-button";
 const MAXIMIZE_BUTTON_ID = "maximize-button";
-const RESTORE_BUTTON_ID = "restore-button";
-On("maximized", () => {
-	let elem = document.getElementById(MAXIMIZE_BUTTON_ID);
-	if (!elem)
-		return;
-	elem.id = RESTORE_BUTTON_ID;
-	elem.onclick = restore;
-});
-On("restored", () => {
-	let elem = document.getElementById(RESTORE_BUTTON_ID);
-	if (!elem)
-		return;
-	elem.id = MAXIMIZE_BUTTON_ID;
-	elem.onclick = maximize;
+const UNMAXIMIZE_BUTTON_ID = "unmaximize-button";
+const CLOSE_BUTTON_ID = "close-button";
+
+On(Channels.MainWindow, (event: string) => {
+	switch (event) {
+		case "maximized": {
+			let elem = document.getElementById(MAXIMIZE_BUTTON_ID);
+			if (!elem)
+				return;
+			elem.id = UNMAXIMIZE_BUTTON_ID;
+			elem.onclick = unmaximizeWindow;
+			break;
+		}
+		case "unmaximized": {
+			let elem = document.getElementById(UNMAXIMIZE_BUTTON_ID);
+			if (!elem)
+				return;
+			elem.id = MAXIMIZE_BUTTON_ID;
+			elem.onclick = maximizeWindow;
+			break;
+		}
+	}
 });
 
 // TODO: parse config file
@@ -59,11 +68,26 @@ On("restored", () => {
 //       for checking against the context when event is received. This prevents weird behaviors. Also, try
 //       to cancel events and close windows/objects that belong to the previous context.
 // TODO: Allow pluggable ops for filesystems. Or maybe not ... leave this for winfsp or dokan
+// TODO: When a folder or file is selected, Ctrl+Shift+C copies its path
 
-const minimize = () => Send("minimize", null);
-const maximize = () => Send("maximize", null);
-const restore  = () => Send("restore", null);
-const close    = () => Send("close", null);
+declare global {
+	interface Window {
+		minimizeWindow: () => void;
+		maximizeWindow: () => void;
+		unmaximizeWindow: () => void;
+		closeWindow: () => void;
+	}
+}
+
+const minimizeWindow    = () => Send(Channels.MainWindow, "minimize");
+const maximizeWindow    = () => Send(Channels.MainWindow, "maximize");
+const unmaximizeWindow  = () => Send(Channels.MainWindow, "unmaximize");
+const closeWindow       = () => Send(Channels.MainWindow, "close");
+
+window.minimizeWindow    = minimizeWindow;
+window.maximizeWindow    = maximizeWindow;
+window.unmaximizeWindow  = unmaximizeWindow;
+window.closeWindow       = closeWindow;
 
 // Entry point
 // ===========

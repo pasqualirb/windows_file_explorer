@@ -32,10 +32,12 @@
 			<div class="address-bar-button left-button" tabindex="1"></div>
 			<div class="address-bar-button right-button" tabindex="2"></div>
 			<div class="address-bar-button up-button" tabindex="3"></div>
+			<div class="title-bar-spacer-small"></div>
 			<div class="address-bar" tabindex="4">
-				<div class="address-bar-section" onclick="window.api.send('refresh', '/Users/tafstore/')">
-					Documents
-				</div>
+				<div class="address-bar-section address-bar-section-first"></div> <!-- onclick="window.api.send('refresh', '/Users/tafstore/')" -->
+				<div class="address-bar-section">Users</div>
+				<div class="address-bar-section">Admin</div>
+				<div class="address-bar-section address-bar-section-last">Documents</div>
 			</div>
 		</div>
 
@@ -43,9 +45,9 @@
 
 		<!-- minimize/maximize/close -->
 		<div id="window-buttons-container">
-			<div class="window-button" id="minimize-button" onclick="minimize()"></div>
-			<div class="window-button" id="maximize-button" onclick="maximize()"></div>
-			<div class="window-button" id="close-button" onclick="close()"></div>
+			<div class="window-button" id="minimize-button" onclick="minimizeWindow()"></div>
+			<div class="window-button" id="maximize-button" onclick="maximizeWindow()"></div>
+			<div class="window-button" id="close-button"    onclick="closeWindow()"></div>
 		</div>
 
 	</div>
@@ -54,7 +56,18 @@
 	<!-- Main container (where files are shown) -->
 	<!-- ================================================================================= -->
 	<div class="main-container">
-		<div class="tree-view"></div>
+
+		<!-- Side bar -->
+		<div class="side-bar">
+			<div class="side-bar-button">Home</div>
+			<div class="side-bar-button">Documents</div>
+			<div class="side-bar-button">Downloads</div>
+			<div class="side-bar-button">Pictures</div>
+			<div class="side-bar-button">Music</div>
+			<div class="side-bar-button">Videos</div>
+		</div>
+
+		<!-- File viewer -->
 		<div class="files-view">
 			<div id="files-container" style="flex-flow: column; background-color: transparent;">
 				<div class="file-line" onclick="focus()">Test</div>

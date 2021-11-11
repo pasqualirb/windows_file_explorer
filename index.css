@@ -23,6 +23,10 @@ body {
 
 	user-select: none;
 	-webkit-user-drag: none;
+
+	font-size: 0.8rem;
 }
 
 div:focus { outline-color: #99D1FF; }
+
+.round-corner { border-radius: 0.3rem; }
