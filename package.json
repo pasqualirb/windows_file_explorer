@@ -29,6 +29,6 @@
   },
   "dependencies": {
     "color": "^4.0.1",
-    "electron-acrylic-window": "^0.5.8"
+    "electron-acrylic-window": "^0.5.9"
   }
 }
